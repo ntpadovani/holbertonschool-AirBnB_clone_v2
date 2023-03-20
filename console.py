@@ -115,36 +115,38 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, args):
         """ Create an object of any class"""
-        arg = args.partition(" ")
-        c_name = arg[0]
-        parameter = arg[2]
+        args_list = args.split()
         if not args:
             print("** class name missing **")
             return
-        elif c_name not in HBNBCommand.classes:
+        c_name = args_list[0]
+        if c_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        
-        params = {} # dictionary created empty
-        for param in parameter:
-            try:
-                key, value = param.split("=")
-                if value.startswith('"') and value.endwith('"'):
-                    value = value[1:-1].replace ('_', ' ').replace('\\"', '"')
-                elif '.' in value:
-                    value = float(value)
-                else:
-                    value = int(value)
-                params[key] = value
-            except ValueError:
+        params = {}
+        for param in args_list[1:]:
+            if '=' not in param:
                 continue
+            key, value = param.split('=')
+            if value.startswith('"') and value.endswith('"'):
+                value = value[1:-1].replace('-', ' ').replace('\\"', '"')
+            elif '.' in value:
+                try:
+                    value = float(value)
+                except ValueError:
+                    continue
+            else:
+                try:
+                    value = int(value)
+                except ValueError:
+                    continue
+            params[key] = value
         new_instance = HBNBCommand.classes[c_name]()
-        print(new_instance.id)
-        obj_key = c_name + "." + new_instance.id
-        if params != {}:
-            new_dic = storage.all()[obj_key]
-            new_dic.__dict__.update(params)
+        for key, value in params.items():
+            setattr(new_instance, key, value)
+        storage.new(new_instance)
         storage.save()
+        print(new_instance.id)
 
     def help_create(self):
         """ Help information for the create method """
