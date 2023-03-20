@@ -113,6 +113,13 @@ class HBNBCommand(cmd.Cmd):
         """ Overrides the emptyline method of CMD """
         pass
 
+    def find_value(param): #so we can find the value of the parameter --Norman
+        """ Validation for params with special formatting """
+        try:
+            value = param[param.find('=') + 1:]
+        except IndexError:
+            return None
+
     def do_create(self, args):
         """ Create an object of any class"""
         if not args:
@@ -121,6 +128,24 @@ class HBNBCommand(cmd.Cmd):
         elif args not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
+        
+        args = arg.split() # We need to slipt the incoming parameter based on the syntax key=value, I split it with split and save it in params_dic--Norman
+        params_dic = {} # dictionary created emptyn changed name of dic --Norman 
+        
+        for param_dic in args[1:]:
+            try:
+                
+                if ('=' in arg): 
+                    for param in args:
+                        if ('=' in param):
+                            key = param[:param.find('=')]
+
+                
+                                # In a way create a switch cases where we manage string, float and int
+            except:
+                # Except case (Imma research what would be the error for the Except Case to added)
+                continue
+
         new_instance = HBNBCommand.classes[args]()
         storage.save()
         print(new_instance.id)
