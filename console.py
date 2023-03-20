@@ -125,10 +125,15 @@ class HBNBCommand(cmd.Cmd):
         params = {} # dictionary created empty
         for param in args[1:]:
             try:
-                # We need to slipt the incoming parameter based on the syntax key=value
-                # In a way create a switch cases where we manage string, float and int
-            except:
-                # Except case (Imma research what would be the error for the Except Case to added)
+                key, value = param.split("=")
+                if value.startswith('"') and value.endwith('"'):
+                    value = value[1:-1].replace ('_', ' ').replace('\\"', '"')
+                elif #norman thingy:
+                    value = float(value)
+                else:
+                    value = int(value)
+                params[key] = value
+            except ValueError:
                 continue
 
 
