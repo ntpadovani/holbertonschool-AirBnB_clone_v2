@@ -121,6 +121,17 @@ class HBNBCommand(cmd.Cmd):
         elif args not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
+        
+        params = {} # dictionary created empty
+        for param in args[1:]:
+            try:
+                # We need to slipt the incoming parameter based on the syntax key=value
+                # In a way create a switch cases where we manage string, float and int
+            except:
+                # Except case (Imma research what would be the error for the Except Case to added)
+                continue
+
+
         new_instance = HBNBCommand.classes[args]()
         storage.save()
         print(new_instance.id)
