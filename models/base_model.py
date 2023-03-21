@@ -12,17 +12,17 @@ Base = declarative_base() # Norman thingy
 
 class BaseModel:
     """A base class for all hbnb models"""
-    id = Column(String(60), nullable=False, primary_key=True)
-    created_at = Column(DateTime, default=datetime.utcnow(), nullable=False)
-    updated_at = Column(DateTime, default=datetime.utcnow(), nullable=False)
+    id = Column(String(60), nullable=False, primary_key=True) # Norman thingy, represents a column containing a unique string (60 characters), can’t be null, primary key
+    created_at = Column(DateTime, default=datetime.utcnow(), nullable=False) # Norman thingy, represents a column containing a datetime, can't be null, default value is the current datetime
+    updated_at = Column(DateTime, default=datetime.utcnow(), nullable=False) # Norman thingy, represents a column containing a datetime, can't be null, default value is the current datetime
 
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
         if kwargs:
-            for key, value in kwargs.items():
+            for key, value in kwargs.items(): #Norman thingy, create instance attribute from this dictionary
                 if key == "created_at" or key == "updated_at":
-                    value = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f")
-                    setattr(self, key, value)
+                    value = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f") 
+                    setattr(self, key, value) 
                 if key != "__class__":
                     setattr(self, key, value)
         else:
@@ -58,4 +58,4 @@ class BaseModel:
 
     def delete(self):
         """ Deletes instance from storage """
-        models.storage.delete(self)
+        models.storage.delete(self) # Norman thingy, to delete the current instance from the storage
