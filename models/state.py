@@ -1,11 +1,12 @@
 #!/usr/bin/python3
 """ State Module for HBNB project """
-from models.base_model import BaseModel #Norman thingy, State inherits from BaseModel and Base
-from models.base_model import Base 
-from sqlalchemy.orm import relationship
-from sqlalchemy import Column, String, Integer, ForeignKey
-from models.city import City
 import os
+from models.base_model import BaseModel #Norman thingy, State inherits from BaseModel and Base
+from models.base_model import Base
+from models.city import City 
+from sqlalchemy import Column, String, Integer, ForeignKey
+from sqlalchemy.orm import relationship
+
 from models.engine.file_storage import FileStorage
 
 class State(BaseModel, Base):
@@ -20,6 +21,7 @@ class State(BaseModel, Base):
         @property #Norman thingy, comments would be too long so will not go into details but here is the getter method
         def reviews(self):
             """ getter method for reviews when place_id == Place.id"""
+            from models import storage
             cities_list = []
             cities = storage.all(City)
             for city in cities.values():
