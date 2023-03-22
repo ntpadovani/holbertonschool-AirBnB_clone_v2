@@ -22,7 +22,7 @@ class State(BaseModel, Base):
         def reviews(self):
             """ getter method for reviews when place_id == Place.id"""
             from models import storage
-            cities = storage.all(city)
+            cities = storage.all(City)
             cities_list = []
             
             for city in cities.values():
