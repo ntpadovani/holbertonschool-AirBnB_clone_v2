@@ -8,9 +8,6 @@ from models.city import City
 import os
 from models.engine.file_storage import FileStorage
 
-fs = FileStorage()
-
-
 class State(BaseModel, Base):
     """ State class """
     __tablename__ = 'states' # Norman thingy, represents the table name, states
@@ -24,7 +21,7 @@ class State(BaseModel, Base):
         def reviews(self):
             """ getter method for reviews when place_id == Place.id"""
             cities_list = []
-            cities = fs.all(City)
+            cities = storage.all(City)
             for city in cities.values():
                 if city.state_id == self.id:
                     cities_list.append(city)
