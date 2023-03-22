@@ -130,7 +130,7 @@ class HBNBCommand(cmd.Cmd):
                 key, value = param.split("=")
                 if value.startswith('"') and value.endwith('"'):
                     value = value[1:-1].replace ('_', ' ').replace('\\"', '"')
-                elif '.' in value #norman thingy, DONE:
+                elif '.' in value : # Norman thingy
                     value = float(value)
                 else:
                     value = int(value)
