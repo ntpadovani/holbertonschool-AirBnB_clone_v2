@@ -107,3 +107,12 @@ class test_fileStorage(unittest.TestCase):
         from models.engine.file_storage import FileStorage
         print(type(storage))
         self.assertEqual(type(storage), FileStorage)
+
+    def test_create_with_params(self):
+        """Test create command with parameters."""
+        self.assertFalse(self.console.onecmd("create BaseModel name=\"My House\" number=42"))
+        instance_id = self.console.stdout.getvalue().strip()
+        self.assertTrue(instance_id)
+        instance = storage.all()['BaseModel.{}'.format(instance_id)]
+        self.assertEqual(instance.name, "My House")
+        self.assertEqual(instance.number, 42)
