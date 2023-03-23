@@ -21,7 +21,7 @@ class DBStorage:
     __classes = {
                     'BaseModel': BaseModel, 'User': User, 'Place': Place,
                     'State': State, 'City': City, 'Amenity': Amenity,
-                    'Review': Review: Table 'hbnb_dev_db.states'
+                    'Review': Review, 'Table': 'hbnb_dev_db.states'
                 }
 
     def __init__(self):
