@@ -10,6 +10,7 @@ from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
+# sup, shawty?
 
 
 class HBNBCommand(cmd.Cmd):
@@ -141,7 +142,7 @@ class HBNBCommand(cmd.Cmd):
                 except ValueError:
                     continue
             params[key] = value
-        new_instance = HBNBCommand.classes[c_name]() #lizz code lets go
+        new_instance = HBNBCommand.classes[c_name]()
         for key, value in params.items():
             setattr(new_instance, key, value)
         storage.new(new_instance)
