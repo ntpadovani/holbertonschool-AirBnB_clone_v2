@@ -134,6 +134,7 @@ class HBNBCommand(cmd.Cmd):
                 try:
                     value = float(value)
                 except ValueError:
+                    continue
             else:
                 try:
                     value = int(value)
