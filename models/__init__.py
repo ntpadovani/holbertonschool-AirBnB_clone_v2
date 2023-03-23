@@ -3,7 +3,7 @@
 import os
 
 if os.getenv('HBNB_TYPE_STORAGE') == "db":
-    from models.engine.db_storage import DBStorage
+    from models.engine.db_storage import DBStorage # gotta move this out human
     storage = DBStorage()
     storage.reload()
 
