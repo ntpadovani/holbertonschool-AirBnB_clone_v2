@@ -141,7 +141,7 @@ class HBNBCommand(cmd.Cmd):
                 except ValueError:
                     continue
             params[key] = value
-        new_instance = HBNBCommand.classes[c_name]()
+        new_instance = HBNBCommand.classes[c_name]() #lizz code lets go
         for key, value in params.items():
             setattr(new_instance, key, value)
         storage.new(new_instance)
