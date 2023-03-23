@@ -1,13 +1,16 @@
 #!/usr/bin/python3
 """This module defines a base class for all models in our hbnb clone"""
+from os import getenv
 import models
 from uuid import uuid4
 from datetime import datetime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, String, DateTime
 
-
-Base = declarative_base() # Norman thingy
+if getenv('HBNB_TYPE_STORAGE') == 'db':
+    Base = declarative_base() # Norman thingy
+else:
+    Base = object()
 
 
 class BaseModel:
