@@ -21,7 +21,7 @@ class DBStorage:
     __classes = {
                     'BaseModel': BaseModel, 'User': User, 'Place': Place,
                     'State': State, 'City': City, 'Amenity': Amenity,
-                    'Review': Review
+                    'Review': ReviewERROR 1146 (42S02) at line 3: Table 'hbnb_dev_db.states' doesn't exist
                 }
 
     def __init__(self):
@@ -31,9 +31,9 @@ class DBStorage:
         host = os.getenv('HBNB_MYSQL_HOST') # Norman thingy, this is self explainatory
         database = os.getenv('HBNB_MYSQL_DB') # Norman thingy, this is self explainatory
 
-        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'. #Norman thingy, create the engine, the engine must be linked to the MySQL database
+        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'. 
                                       format(user, password, host, database),
-                                      pool_pre_ping=True) #Norman thingy, feature that tests connections for liveness upon each checkout.
+                                      pool_pre_ping=True) #Norman thingy, feature that tests connections for liveness upon each checkout.create the engine, the engine must be linked to the MySQL database
         if (os.getenv('HBNB_ENV') == 'test'): # drop all tables if the environment variable HBNB_ENV is equal to test
             Base.metadata.drop_all(self.__engine)
 
