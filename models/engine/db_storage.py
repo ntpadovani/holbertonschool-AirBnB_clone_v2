@@ -21,7 +21,7 @@ class DBStorage:
     __classes = {
                     'BaseModel': BaseModel, 'User': User, 'Place': Place,
                     'State': State, 'City': City, 'Amenity': Amenity,
-                    'Review': ReviewERROR 1146 (42S02) at line 3: Table 'hbnb_dev_db.states' doesn't exist
+                    'Review': Review: Table 'hbnb_dev_db.states'
                 }
 
     def __init__(self):
