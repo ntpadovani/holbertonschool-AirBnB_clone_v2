@@ -7,10 +7,12 @@ from sqlalchemy import Column, String, Integer, Float, ForeignKey, Table
 
 
 place_amenity = Table('place_amenity', Base.metadata,
-                                Column('place_id', String(60), ForeignKey('places.id'),
-                                       primary_key=True, nullable=False),
-                                Column('amenity_id', String(60), ForeignKey('amenities.id'),
-                                       primary_key=True, nullable=False))
+                      Column('place_id', String(60),
+                             ForeignKey('places.id'),
+                             primary_key=True, nullable=False),
+                      Column('amenity_id', String(60),
+                             ForeignKey('amenities.id'),
+                             primary_key=True, nullable=False))
 
 
 class Place(BaseModel, Base):
@@ -28,8 +30,10 @@ class Place(BaseModel, Base):
     longitude = Column(Float, nullable=True)
 
     if environ.get('HBNB_TYPE_STORAGE') == 'db':
-        reviews = relationship("Review", cascade="all, delete-orphan", backref='place')
-        amenities = relationship("Amenity", secondary=place_amenity, viewonly=False)
+        reviews = relationship("Review", cascade="all, delete-orphan",
+                               backref='place')
+        amenities = relationship("Amenity", secondary=place_amenity,
+                                 viewonly=False)
     else:
         @property
         def reviews(self):
