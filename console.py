@@ -10,7 +10,7 @@ from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
-# sup, shawty?
+import os
 
 
 class HBNBCommand(cmd.Cmd):
@@ -142,11 +142,16 @@ class HBNBCommand(cmd.Cmd):
                 except ValueError:
                     continue
             params[key] = value
-        new_instance = HBNBCommand.classes[c_name]()
-        for key, value in params.items():
-            setattr(new_instance, key, value)
-        storage.new(new_instance)
-        storage.save()
+
+        if os.environ.get('HBNH_TYPE_STORAGE') == 'db':
+            new_instance = HBNBCommand.classes[c_name](**params)
+            new_instance.save()
+        else:
+            new_instance = HBNBCommand.classes[c_name]()
+            for key, value in params.items():
+                setattr(new_instance, key, value)
+            storage.new(new_instance)
+            storage.save()
         print(new_instance.id)
 
     def help_create(self):
