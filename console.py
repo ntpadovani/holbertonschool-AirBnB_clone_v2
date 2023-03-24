@@ -143,11 +143,10 @@ class HBNBCommand(cmd.Cmd):
                     continue
             params[key] = value
 
-        if params != {}:
+        if os.environ.get('HBNH_TYPE_STORAGE') == 'db':
             new_instance = HBNBCommand.classes[c_name](**params)
         else:
             new_instance = HBNBCommand.classes[c_name]()
-        
         storage.save()
         print(new_instance.id)
 
