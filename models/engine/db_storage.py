@@ -17,6 +17,12 @@ class DBStorage:
     __engine = None 
     __session = None
 
+    __classes = {
+                    'BaseModel': BaseModel, 'User': User, 'Place': Place,
+                    'State': State, 'City': City, 'Amenity': Amenity,
+                    'Review': Review, 'Table': 'hbnb_dev_db.states'
+                }
+
     def __init__(self):
         """ Initializes the database """
         user = os.getenv('HBNB_MYSQL_USER') # Norman thingy, this is self explainatory 
