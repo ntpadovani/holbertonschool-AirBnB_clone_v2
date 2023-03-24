@@ -3,12 +3,10 @@
 from models.base_model import BaseModel, Base
 from sqlalchemy.orm import relationship
 from os import environ
-from models.review import Review
-from models.amenity import Amenity
 from sqlalchemy import Column, String, Integer, Float, ForeignKey, Table
 
 
-place_amenities = Table('place_amenity', Base.metadata,
+place_amenity = Table('place_amenity', Base.metadata,
                                 Column('place_id', String(60), ForeignKey('places.id'),
                                        primary_key=True, nullable=False),
                                 Column('amenity_id', String(60), ForeignKey('amenities.id'),
@@ -31,7 +29,7 @@ class Place(BaseModel, Base):
 
     if environ.get('HBNB_TYPE_STORAGE') == 'db':
         reviews = relationship("Review", cascade="all, delete-orphan", backref='place')
-        amenities = relationship("Amenity", secondary=place_amenities, viewonly=False)
+        amenities = relationship("Amenity", secondary=place_amenity, viewonly=False)
     else:
         @property
         def reviews(self):
@@ -58,5 +56,3 @@ class Place(BaseModel, Base):
             if isinstance(amenity, Amenity):
                 if self.id == amenity.place_id:
                     self.amenity_ids.append(amenity.id)
-            else:
-                return
