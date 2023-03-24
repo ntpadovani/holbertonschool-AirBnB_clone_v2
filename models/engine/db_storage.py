@@ -9,7 +9,6 @@ from models.city import City
 from models.state import State
 from models.amenity import Amenity
 from models.review import Review
-from sqlalchemy.orm.exc import NoResultFound
 import os
 
 
@@ -18,48 +17,37 @@ class DBStorage:
     __engine = None 
     __session = None
 
-    __classes = {
-                    'BaseModel': BaseModel, 'User': User, 'Place': Place,
-                    'State': State, 'City': City, 'Amenity': Amenity,
-                    'Review': Review, 'Table': 'hbnb_dev_db.states'
-                }
-
     def __init__(self):
         """ Initializes the database """
         user = os.getenv('HBNB_MYSQL_USER') # Norman thingy, this is self explainatory 
         password = os.getenv('HBNB_MYSQL_PWD') # Norman thingy, this is self explainatory
-        host = os.getenv('HBNB_MYSQL_HOST') # Norman thingy, this is self explainatory
+        host = os.getenv('HBNB_MYSQL_HOST', 'localhost') # Norman thingy, this is self explainatory
         database = os.getenv('HBNB_MYSQL_DB') # Norman thingy, this is self explainatory
 
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'. 
                                       format(user, password, host, database),
                                       pool_pre_ping=True) #Norman thingy, feature that tests connections for liveness upon each checkout.create the engine, the engine must be linked to the MySQL database
-        if (os.getenv('HBNB_ENV') == 'test'): # drop all tables if the environment variable HBNB_ENV is equal to test
+        if os.getenv('HBNB_ENV') == 'test': # drop all tables if the environment variable HBNB_ENV is equal to test
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None): #Norman thingy
         """Returns all objects based on class provided"""
         obj_dict = {}
         if cls is None:
-            for key, value in self.__classes.items():
-                try:
-                    result = self.__session.query(value).all() # if cls=None, query all types of objects
-                except:
-                    pass
+            for cls in [BaseModel, User, Place, City, State, Amenity, Review]:
+                obj = self.__session.query(cls).all()
                 for obj in result:
-                    new_key = key + "." + obj.id
+                    new_key = '{}.{}'.format(type(obj).__name__, obj.id)
                     obj_dict[new_key] = obj
         else:
             result = self.__session.query(self.__classes[cls]).all() # query on the current database session (self.__session) all objects depending of the class name (argument cls)
             for obj in result: #  method must return a dictionary
-                new_key = str(cls) + "." + obj.id
+                new_key = '{}.{}'.format(type(obj).__name__, obj.id)
                 obj_dict[new_key] = obj
-
         return obj_dict
 
     def new(self, obj):
         self.__session.add(obj) # add the object to the current database session (self.__session)
-        pass
 
     def save(self):
         """commits the changes to the database"""
@@ -82,4 +70,3 @@ class DBStorage:
     def delete(self, obj=None):
         if obj is not None: #  delete from the current database session obj if not None
             self.__session.delete(obj)
-        pass
