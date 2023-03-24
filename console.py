@@ -231,18 +231,17 @@ class HBNBCommand(cmd.Cmd):
                 return
             if type(storage).__name__ == "DBStorage":
                 objects = storage.all(args)
+                for obj in objects.values():
+                    print_list.append(str(obj))
             else:
-                objects = storage._FileStorage_objects
-            for k, v in storage.objects.items():
-                if k.split('.')[0] == args:
-                    print_list.append(str(v))
+                objects = storage.all()
+                for obj in objects.values():
+                    if type(obj).__name__ == args:
+                        print_list.append(str(obj))
         else:
-            if type(storage).__name__ == "DBStorage":
-                objects = storage.all(args)
-            else:
-                objects = storage._FileStorage_objects
-            for k, v in storage._FileStorage__objects.items():
-                print_list.append(str(v))
+            objects = storage.all()
+            for obj in objects.values():
+                print_list.append(str(obj))
         print(print_list)
 
     def help_all(self):
