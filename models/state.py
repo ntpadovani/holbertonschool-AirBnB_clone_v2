@@ -15,10 +15,10 @@ class State(BaseModel, Base):
 
     if (os.getenv('HBNB_TYPE_STORAGE') == 'db'):
         cities = relationship("City", backref="state", #Norman thingy, must represent a relationship with the class City
-                              cascade='all, delete, delete-orphan') # Norman thingy, If the State object is deleted, all linked City objects must be automatically deleted
+                              cascade='all, delete') # Norman thingy, If the State object is deleted, all linked City objects must be automatically deleted
     else:
         @property #Norman thingy, comments would be too long so will not go into details but here is the getter method
-        def reviews(self):
+        def cities(self):
             """ getter method for reviews when place_id == Place.id"""
             from models import storage
             cities = storage.all(City)
