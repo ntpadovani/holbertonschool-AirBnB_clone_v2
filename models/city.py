@@ -1,8 +1,6 @@
 #!/usr/bin/python3
 """ City Module for HBNB project """
-from models.base_model import BaseModel #Norman thingys, City inherits from BaseModel 
-from models.base_model import Base # Norman thingys, and Base (respect the order)
-from sqlalchemy.orm import relationship
+from models.base_model import BaseModel, Base #Norman thingys, City inherits from BaseModel 
 from sqlalchemy import Column, String, ForeignKey
 
 

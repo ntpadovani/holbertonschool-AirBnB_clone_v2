@@ -1,8 +1,7 @@
 #!/usr/bin/python3
 """ State Module for HBNB project """
 import os
-from models.base_model import BaseModel #Norman thingy, State inherits from BaseModel and Base
-from models.base_model import Base
+from models.base_model import BaseModel, Base #Norman thingy, State inherits from BaseModel and Base
 from models.city import City 
 from sqlalchemy import Column, String, Integer, ForeignKey
 from sqlalchemy.orm import relationship
