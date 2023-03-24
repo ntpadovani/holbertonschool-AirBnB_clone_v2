@@ -11,4 +11,5 @@ class City(BaseModel, Base):
     name = Column(String(128), nullable=False) # Norman thingys, represents a column containing a string (128 characters), can’t be null
     state_id = Column(String(60), ForeignKey('states.id'), nullable=False) # Norman thingys, represents a column containing a string (60 characters), can't be null, is a foreign key 
 
-    places = relationship('Place', backref='cities', cascade='all, delete-orphan')
+    if os.getenv('HBNB_TYPE_STORAGE') == 'db':
+        places = relationship('Place', backref='cities', cascade='all, delete-orphan')
