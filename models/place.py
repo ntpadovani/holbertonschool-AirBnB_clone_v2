@@ -4,7 +4,8 @@ from models.base_model import BaseModel, Base
 from sqlalchemy.orm import relationship
 from os import environ
 from models.review import Review
-from sqlalchemy import Column, String, Integer, Float, ForeignKey
+from models.amenity import Amenity
+from sqlalchemy import Column, String, Integer, Float, ForeignKey, Table
 
 
 class Place(BaseModel, Base):
@@ -23,6 +24,14 @@ class Place(BaseModel, Base):
 
     if environ.get('HBNB_TYPE_STORAGE') == 'db':
         reviews = relationship("Review", cascade="all, delete-orphan", backref='place')
+
+        place_amenities = Table('place_amenity', Base.metadata,
+                                Column('place_id', String(60), ForeignKey('places.id'),
+                                       primary_key=True, nullable=False),
+                                Column('amenity_id', String(60), ForeignKey('amenities.id'),
+                                       primary_key=True, nullable=False))
+        
+        amenities = relationship("Amenity", secondary=place_amenities, viewonly=False)
     else:
         @property
         def reviews(self):
@@ -33,3 +42,21 @@ class Place(BaseModel, Base):
                 if review.place_id == self.id:
                     reviews_list.append(review)
             return reviews_list
+
+        @property
+        def amenities(self):
+            from models import storage
+            amenities_list = []
+            for amenity_id in self.amenity_ids:
+                amenity = storage.get(Amenity, amenity_id)
+                if amenity:
+                    amenities_list.append(amenity)
+            return amenities_list
+
+        @amenities.setter
+        def amenities(self, amenity):
+            if isinstance(amenity, Amenity):
+                if self.id == amenity.place_id:
+                    self.amenity_ids.append(amenity.id)
+            else:
+                return
