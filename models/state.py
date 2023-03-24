@@ -21,10 +21,9 @@ class State(BaseModel, Base):
         def cities(self):
             """ getter method for reviews when place_id == Place.id"""
             from models import storage
-            cities = storage.all(City)
             cities_list = []
             
-            for city in cities.values():
+            for city in storage.all(City):
                 if city.state_id == self.id:
                     cities_list.append(city)
             return cities_list
