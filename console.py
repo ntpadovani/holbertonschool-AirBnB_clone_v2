@@ -32,33 +32,35 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, args):
         """ Create an object of any class"""
+        argList = args.split()
         if not args:
             print("** class name missing **")
             return
-        args = args.split(" ")
-        if args[0] not in HBNBCommand.classes:
+        elif argList[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        cls = HBNBCommand.classes[args[0]]
-        kwargs = {}
-        params = args[1:]
-        for param in params:
-            k, v = param.split('=')
-            if v is '':
-                continue
-            if v[0] == '"' and v[len(v)-1] == '"':
-                v = v.strip('"')
-                v = v.replace('_', ' ')
-                v = v.replace('"', '\"')
-            else:
-                try:
-                    v = eval(v)
-                except:
-                    continue
-            kwargs[k] = v
-        new_instance = cls(**kwargs)
-        new_instance.save()
+        else:
+            new_dict = {}
+            for string in argList[1:]:
+                if '=' in string:
+                    keyValue = string.split('=', 1)
+                    key = keyValue[0]
+                    value = keyValue[1]
+                    if '"' == value[0] == value[-1]:
+                        value = split(value)
+                        value = value[0].replace("_", " ")
+                    else:
+                        try:
+                            value = int(value)
+                        except:
+                            try:
+                                value = float(value)
+                            except:
+                                continue
+                    new_dict[key] = value
+            new_instance = HBNBCommand.classes[argList[0]](**new_dict)
         print(new_instance.id)
+        new_instance.save()
 
     def preloop(self):
         """Prints if isatty is false"""
