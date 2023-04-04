@@ -23,7 +23,7 @@ class State(BaseModel, Base):
         @property
         def cities(self):
             """
-            Getter for cities related to a state using a FIlEStorage engine
+            Getter for cities related to a state using a FIlEStorage engine.
             """
             st_cities = []
             for city in models.storage.all(City).values():
