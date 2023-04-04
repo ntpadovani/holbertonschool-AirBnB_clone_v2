@@ -44,7 +44,7 @@ class HBNBCommand(cmd.Cmd):
         params = args[1:]
         for param in params:
             k, v = param.split('=')
-            if v is '':
+            if v == '':
                 continue
             if v[0] == '"' and v[len(v)-1] == '"':
                 v = v.strip('"')
